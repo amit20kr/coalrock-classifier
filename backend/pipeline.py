@@ -33,177 +33,178 @@ FUEL_CLASSES = [
 
 # ──────────────────────────────────────────────────────────────────────────────
 # XRF PASSPORT — nested structure (Origin + Geochemistry)
+# Geochemistry values sourced from backend/assets/XRF_database.csv (real XRF measurements).
 # Frontend calls: passport_data.get('Origin', ...) and passport_data.get('Geochemistry', {})
 # ──────────────────────────────────────────────────────────────────────────────
 XRF_PASSPORT = {
-    # ── FUEL CLASSES ──────────────────────────────────────────────────────────
+    # ── FUEL CLASSES (coal — only SiO2, Al2O3, Fe2O3 measurable via XRF) ─────
     "Anthracite coal grade 1": {
         "Origin": "Jincheng Coal Mine, Shanxi Province",
         "Geochemistry": {
-            "Fixed Carbon": "88.2%", "Ash": "8.5%",
-            "Volatile Matter": "3.3%", "Moisture": "0.5%"
+            "SiO2": "2.63%", "Al2O3": "1.01%", "Fe2O3": "0.87%"
         }
     },
     "Anthracite coal grade 2": {
         "Origin": "Yangquan Coal Mine, Shanxi Province",
         "Geochemistry": {
-            "Fixed Carbon": "84.7%", "Ash": "10.2%",
-            "Volatile Matter": "5.1%", "Moisture": "0.6%"
+            "SiO2": "4.61%", "Al2O3": "1.17%", "Fe2O3": "0.81%"
         }
     },
     "Lean coal": {
         "Origin": "Fengfeng Coal Mine, Hebei Province",
         "Geochemistry": {
-            "Fixed Carbon": "78.3%", "Ash": "12.4%",
-            "Volatile Matter": "9.3%", "Moisture": "0.8%"
+            "SiO2": "6.18%", "Al2O3": "1.40%", "Fe2O3": "1.19%"
         }
     },
     "Lean-thin coal": {
         "Origin": "Huainan Coal Mine, Anhui Province",
         "Geochemistry": {
-            "Fixed Carbon": "74.1%", "Ash": "14.6%",
-            "Volatile Matter": "11.3%", "Moisture": "1.1%"
+            "SiO2": "6.46%", "Al2O3": "0.98%", "Fe2O3": "0.44%"
         }
     },
     "Thin coal": {
         "Origin": "Pingdingshan Coal Mine, Henan Province",
         "Geochemistry": {
-            "Fixed Carbon": "70.5%", "Ash": "15.2%",
-            "Volatile Matter": "14.3%", "Moisture": "1.2%"
+            "SiO2": "7.13%", "Al2O3": "1.20%", "Fe2O3": "0.54%"
         }
     },
     "Coking coal": {
         "Origin": "Liuzhi Coal Mine, Guizhou Province",
         "Geochemistry": {
-            "Fixed Carbon": "68.7%", "Ash": "9.8%",
-            "Volatile Matter": "21.5%", "Moisture": "0.9%"
+            "SiO2": "3.05%", "Al2O3": "0.84%", "Fe2O3": "1.08%"
         }
     },
     "0.3 coking coal": {
         "Origin": "Xishan Coal Mine, Shanxi Province",
         "Geochemistry": {
-            "Fixed Carbon": "66.2%", "Ash": "11.3%",
-            "Volatile Matter": "22.5%", "Moisture": "1.0%"
+            "SiO2": "2.48%", "Al2O3": "1.23%", "Fe2O3": "0.89%"
         }
     },
     "Fat coal": {
         "Origin": "Kailuan Coal Mine, Hebei Province",
         "Geochemistry": {
-            "Fixed Carbon": "60.4%", "Ash": "13.7%",
-            "Volatile Matter": "25.9%", "Moisture": "1.4%"
+            "SiO2": "3.96%", "Al2O3": "1.00%", "Fe2O3": "1.25%"
         }
     },
     "Gas-fat coal": {
         "Origin": "Shenmu Coal Mine, Shaanxi Province",
         "Geochemistry": {
-            "Fixed Carbon": "55.1%", "Ash": "10.4%",
-            "Volatile Matter": "34.5%", "Moisture": "1.8%"
+            "SiO2": "2.92%", "Al2O3": "1.68%", "Fe2O3": "0.93%"
         }
     },
     "Gas coal": {
         "Origin": "Hanjing Coal Mine, Shaanxi Province",
         "Geochemistry": {
-            "Fixed Carbon": "48.3%", "Ash": "12.1%",
-            "Volatile Matter": "39.6%", "Moisture": "2.1%"
+            "SiO2": "2.05%", "Al2O3": "2.09%", "Fe2O3": "0.98%"
         }
     },
     "Lignite coal grade 1": {
         "Origin": "Baotou Coal Mine, Inner Mongolia",
         "Geochemistry": {
-            "Fixed Carbon": "38.5%", "Ash": "18.3%",
-            "Volatile Matter": "41.2%", "Moisture": "8.5%"
+            "SiO2": "17.20%", "Al2O3": "1.07%", "Fe2O3": "0.86%"
         }
     },
     "Lignite coal grade 2": {
         "Origin": "Yimin Coal Mine, Inner Mongolia",
         "Geochemistry": {
-            "Fixed Carbon": "32.1%", "Ash": "20.7%",
-            "Volatile Matter": "47.2%", "Moisture": "12.4%"
+            "SiO2": "21.05%", "Al2O3": "1.75%", "Fe2O3": "1.03%"
         }
     },
-    # ── GANGUE CLASSES ────────────────────────────────────────────────────────
+    # ── GANGUE CLASSES (full XRF elemental profiles) ─────────────────────────
+    "Carbonaceous shale": {
+        "Origin": "Dongfeng Coal Mine, Shandong Province",
+        "Geochemistry": {
+            "SiO2": "31.11%", "Al2O3": "18.19%", "Fe2O3": "1.66%",
+            "K2O": "1.05%", "MgO": "0.45%", "Na2O": "0.64%",
+            "CaO": "0.15%", "Substrate": "46.25%"
+        }
+    },
     "Black shale 1": {
         "Origin": "Xuzhou Coal Mine, Jiangsu Province",
         "Geochemistry": {
-            "SiO2": "48.30%", "Al2O3": "18.20%",
-            "Fe2O3": "9.80%", "Carbon": "12.5%"
+            "SiO2": "47.02%", "Al2O3": "30.21%", "Fe2O3": "3.64%",
+            "K2O": "0.64%", "MgO": "0.60%", "Na2O": "1.62%",
+            "CaO": "2.58%", "Substrate": "13.24%"
         }
     },
     "Black shale 2": {
         "Origin": "Datong Coal Mine, Shanxi Province",
         "Geochemistry": {
-            "SiO2": "52.10%", "Al2O3": "16.40%",
-            "Fe2O3": "8.60%", "Carbon": "8.2%"
-        }
-    },
-    "Carbonaceous shale": {
-        "Origin": "Dongfeng Coal Mine, Shandong Province",
-        "Geochemistry": {
-            "SiO2": "45.20%", "Al2O3": "28.10%",
-            "Fe2O3": "4.30%", "Carbon": "15.5%"
+            "SiO2": "42.36%", "Al2O3": "27.83%", "Fe2O3": "2.74%",
+            "K2O": "1.27%", "MgO": "0.22%", "Na2O": "0.08%",
+            "CaO": "0.30%", "Substrate": "24.80%"
         }
     },
     "Arenaceous shale 1": {
         "Origin": "Xinglongzhuang Coal Mine, Shandong Province",
         "Geochemistry": {
-            "SiO2": "64.17%", "Al2O3": "14.96%",
-            "Fe2O3": "2.93%", "K2O": "2.71%"
+            "SiO2": "64.51%", "Al2O3": "15.40%", "Fe2O3": "2.77%",
+            "K2O": "2.29%", "MgO": "1.73%", "Na2O": "0.12%",
+            "CaO": "2.73%", "Substrate": "9.89%"
         }
     },
     "Arenaceous shale 2": {
         "Origin": "Baodian Coal Mine, Shandong Province",
         "Geochemistry": {
-            "SiO2": "67.42%", "Al2O3": "13.21%",
-            "Fe2O3": "2.54%", "K2O": "3.12%"
-        }
-    },
-    "Clay": {
-        "Origin": "Yanzhou Coal Mine, Shandong Province",
-        "Geochemistry": {
-            "SiO2": "42.30%", "Al2O3": "35.80%",
-            "Fe2O3": "1.20%", "TiO2": "1.85%"
-        }
-    },
-    "Siltstone 1": {
-        "Origin": "Huaibei Coal Mine, Anhui Province",
-        "Geochemistry": {
-            "SiO2": "72.40%", "Al2O3": "11.30%",
-            "Fe2O3": "3.10%", "K2O": "3.80%"
-        }
-    },
-    "Siltstone 2": {
-        "Origin": "Huainan Coal Mine, Anhui Province",
-        "Geochemistry": {
-            "SiO2": "69.80%", "Al2O3": "12.60%",
-            "Fe2O3": "3.40%", "CaO": "1.20%"
+            "SiO2": "64.17%", "Al2O3": "14.96%", "Fe2O3": "2.93%",
+            "K2O": "1.90%", "MgO": "1.45%",
+            "CaO": "2.61%", "Substrate": "11.35%"
         }
     },
     "Medium-grained sandstone": {
         "Origin": "Jining Coal Mine, Shandong Province",
         "Geochemistry": {
-            "SiO2": "78.50%", "Al2O3": "8.30%",
-            "Fe2O3": "2.10%", "K2O": "4.20%"
+            "SiO2": "79.17%", "Al2O3": "8.72%", "Fe2O3": "1.95%",
+            "K2O": "1.14%", "MgO": "0.52%", "Na2O": "0.53%",
+            "CaO": "0.37%", "Substrate": "7.26%"
+        }
+    },
+    "Clay": {
+        "Origin": "Yanzhou Coal Mine, Shandong Province",
+        "Geochemistry": {
+            "SiO2": "40.32%", "Al2O3": "30.02%", "Fe2O3": "4.44%",
+            "K2O": "13.26%", "MgO": "1.00%", "Na2O": "1.63%",
+            "CaO": "3.55%", "Substrate": "5.36%"
         }
     },
     "Fine-grained sandstone": {
         "Origin": "Zibo Coal Mine, Shandong Province",
         "Geochemistry": {
-            "SiO2": "76.20%", "Al2O3": "9.40%",
-            "Fe2O3": "2.30%", "K2O": "3.90%"
+            "SiO2": "77.47%", "Al2O3": "9.04%", "Fe2O3": "1.76%",
+            "K2O": "1.10%", "MgO": "1.30%", "Na2O": "0.16%",
+            "CaO": "2.48%", "Substrate": "6.17%"
+        }
+    },
+    "Siltstone 1": {
+        "Origin": "Huaibei Coal Mine, Anhui Province",
+        "Geochemistry": {
+            "SiO2": "56.13%", "Al2O3": "13.21%", "Fe2O3": "4.50%",
+            "K2O": "2.47%", "MgO": "1.42%", "Na2O": "1.42%",
+            "CaO": "7.82%", "Substrate": "12.73%"
+        }
+    },
+    "Siltstone 2": {
+        "Origin": "Huainan Coal Mine, Anhui Province",
+        "Geochemistry": {
+            "SiO2": "82.06%", "Al2O3": "1.66%", "Fe2O3": "3.51%",
+            "K2O": "1.37%", "MgO": "2.48%", "Na2O": "0.77%",
+            "CaO": "2.69%", "Substrate": "4.87%"
         }
     },
     "Argillaceous limestone 1": {
         "Origin": "Feicheng Coal Mine, Shandong Province",
         "Geochemistry": {
-            "CaO": "38.20%", "SiO2": "18.40%",
-            "Al2O3": "12.10%", "MgO": "3.20%"
+            "SiO2": "13.50%", "Al2O3": "11.22%", "Fe2O3": "3.06%",
+            "K2O": "2.07%", "MgO": "16.70%",
+            "CaO": "26.56%", "Substrate": "26.40%"
         }
     },
     "Argillaceous limestone 2": {
         "Origin": "Zaozhuang Coal Mine, Shandong Province",
         "Geochemistry": {
-            "CaO": "42.10%", "SiO2": "14.30%",
-            "Al2O3": "10.80%", "MgO": "4.10%"
+            "SiO2": "17.28%", "Al2O3": "12.08%", "Fe2O3": "2.59%",
+            "K2O": "1.89%", "MgO": "4.93%", "Na2O": "1.22%",
+            "CaO": "28.90%", "Substrate": "30.56%"
         }
     },
 }
