@@ -254,11 +254,19 @@ def process_csv_to_tensor(file_bytes: bytes):
     # ── Step 1: Schema-agnostic ingestion ─────────────────────────────────────
     # header=None because row 0 might be metadata, not column headers.
     df_raw = pd.read_csv(io.BytesIO(file_bytes), header=None, low_memory=False)
+
+    # ── Prevent OOM on Render Free Tier (512MB) ───────────────────────────────
+    # We must truncate the dataset BEFORE converting to numeric, otherwise 
+    # pandas will spike memory and crash the server on 5MB files.
+    if df_raw.shape[0] > 64 and df_raw.shape[1] >= 1500:
+        df_raw = df_raw.sample(n=64, random_state=42)
+    elif df_raw.shape[1] > 64 and df_raw.shape[0] >= 1500:
+        # If the CSV is transposed (samples are columns)
+        df_raw = df_raw.sample(n=64, random_state=42, axis=1)
+
     df_num = df_raw.apply(pd.to_numeric, errors='coerce')
 
     # Keep only rows where more than 50% of values survived numeric conversion.
-    # A metadata row like "Block with fractured surface" → almost 100% NaN after coerce.
-    # A spectral row → almost 0% NaN after coerce.
     valid_mask = df_num.notna().sum(axis=1) > (df_raw.shape[1] * 0.5)
     vals = df_num[valid_mask].values.astype(np.float32)
 
@@ -282,15 +290,6 @@ def process_csv_to_tensor(file_bytes: bytes):
     # If rows are closer → rows are bands, cols are samples → transpose needed.
     if abs(vals.shape[0] - EXPECTED_BANDS) < abs(vals.shape[1] - EXPECTED_BANDS):
         vals = vals.T  # (N_bands, N_samples) → (N_samples, N_bands)
-
-    # ── Prevent OOM on Render Free Tier (512MB) ───────────────────────────────
-    # If the user uploads an entire dataset file (thousands of scans), 
-    # random sample 64 scans. This provides a perfectly accurate mean-pooled 
-    # prediction without crashing the memory-constrained container.
-    if vals.shape[0] > 64:
-        np.random.seed(42)
-        idx = np.random.choice(vals.shape[0], 64, replace=False)
-        vals = vals[idx]
 
     # ── Step 4: Crop to exactly 1500 bands ───────────────────────────────────
     if vals.shape[1] > EXPECTED_BANDS:
