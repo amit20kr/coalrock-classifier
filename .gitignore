@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.env
+.env
+.venv
+env/
+venv/
+ENV/
+*.pth
+*.pt
+models/pcvit_expert.pth
+.DS_Store
