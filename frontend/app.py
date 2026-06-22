@@ -93,7 +93,12 @@ if uploaded_file is not None:
             st.error("Request timed out (>90s). The backend may be overloaded. Try again.")
             st.stop()
         except requests.exceptions.HTTPError as e:
-            st.error(f"Backend error {response.status_code}: {response.json().get('detail', str(e))}")
+            try:
+                error_detail = response.json().get('detail', str(e))
+            except ValueError:
+                # If the error page is HTML (e.g., Render 502/504 gateway timeout)
+                error_detail = f"{str(e)} | Raw Response: {response.text[:200]}"
+            st.error(f"Backend error {response.status_code}: {error_detail}")
             st.stop()
 
     # ── VERDICT BANNER ────────────────────────────────────────────────────────
