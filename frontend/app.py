@@ -43,7 +43,9 @@ try:
 except (KeyError, FileNotFoundError):
     BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
 
-IMAGES_DIR = "assets/class_images"
+# Safely resolve the image directory relative to this app.py file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+IMAGES_DIR = os.path.join(BASE_DIR, "assets", "class_images")
 
 
 # ──────────────────────────────────────────────────────────────────────────────
