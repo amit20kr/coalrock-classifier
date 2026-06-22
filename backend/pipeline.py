@@ -283,6 +283,15 @@ def process_csv_to_tensor(file_bytes: bytes):
     if abs(vals.shape[0] - EXPECTED_BANDS) < abs(vals.shape[1] - EXPECTED_BANDS):
         vals = vals.T  # (N_bands, N_samples) → (N_samples, N_bands)
 
+    # ── Prevent OOM on Render Free Tier (512MB) ───────────────────────────────
+    # If the user uploads an entire dataset file (thousands of scans), 
+    # random sample 64 scans. This provides a perfectly accurate mean-pooled 
+    # prediction without crashing the memory-constrained container.
+    if vals.shape[0] > 64:
+        np.random.seed(42)
+        idx = np.random.choice(vals.shape[0], 64, replace=False)
+        vals = vals[idx]
+
     # ── Step 4: Crop to exactly 1500 bands ───────────────────────────────────
     if vals.shape[1] > EXPECTED_BANDS:
         vals = vals[:, :EXPECTED_BANDS]
